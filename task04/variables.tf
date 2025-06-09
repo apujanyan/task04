@@ -64,6 +64,16 @@ variable "vm_password" {
   sensitive   = true
 }
 
+variable "nsr_ssh_name" {
+  description = "SSH rule name"
+  type        = string
+}
+
+variable "nsr_http_name" {
+  description = "HTTP rule name"
+  type        = string
+}
+
 variable "tags" {
   description = "Resource tags"
   type        = map(string)

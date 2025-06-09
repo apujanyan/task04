@@ -9,6 +9,8 @@ nsg_name            = "cmaz-d4qm9uvw-mod4-nsg"
 vm_name             = "cmaz-d4qm9uvw-mod4-vm"
 os_version          = "ubuntu-24_04-lts"
 sku_type            = "Standard_F2s_v2"
+nsr_ssh_name        = "AllowSSH"
+nsr_http_name       = "AllowHTTP"
 tags = {
   Creator = "aramazd_apujanyan@epam.com"
 }
