@@ -74,6 +74,60 @@ variable "nsr_http_name" {
   type        = string
 }
 
+variable "vnet_address_space" {
+  description = "Address space for the virtual network"
+  type        = list(string)
+  default     = ["10.0.0.0/16"]
+}
+
+variable "subnet_address_prefixes" {
+  description = "Address prefixes for the subnet"
+  type        = list(string)
+  default     = ["10.0.1.0/24"]
+}
+
+variable "nsr_ssh_priority" {
+  description = "Priority for SSH rule"
+  type        = number
+  default     = 1001
+}
+
+variable "nsr_http_priority" {
+  description = "Priority for HTTP rule"
+  type        = number
+  default     = 1002
+}
+
+variable "os_disk_name" {
+  description = "Name for the OS disk"
+  type        = string
+  default     = "osdisk"
+}
+
+variable "image_publisher" {
+  description = "Image publisher for the VM"
+  type        = string
+  default     = "Canonical"
+}
+
+variable "image_offer" {
+  description = "Image offer for the VM"
+  type        = string
+  default     = "ubuntu-24_04-lts"
+}
+
+variable "image_sku" {
+  description = "Image SKU for the VM"
+  type        = string
+  default     = "server"
+}
+
+variable "image_version" {
+  description = "Image version for the VM"
+  type        = string
+  default     = "latest"
+}
+
 variable "tags" {
   description = "Resource tags"
   type        = map(string)

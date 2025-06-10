@@ -8,7 +8,7 @@ resource "azurerm_virtual_network" "vnet" {
   name                = var.vnet_name
   location            = var.location
   resource_group_name = azurerm_resource_group.rg.name
-  address_space       = ["10.0.0.0/16"]
+  address_space       = var.vnet_address_space
   tags                = var.tags
 }
 
@@ -16,7 +16,7 @@ resource "azurerm_subnet" "subnet" {
   name                 = var.subnet_name
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.0.1.0/24"]
+  address_prefixes     = var.vnet_address_space
 }
 
 resource "azurerm_public_ip" "pip" {
@@ -38,7 +38,7 @@ resource "azurerm_network_security_group" "nsg" {
 
 resource "azurerm_network_security_rule" "allow_ssh" {
   name                        = var.nsr_ssh_name
-  priority                    = 1001
+  priority                    = var.nsr_ssh_priority
   direction                   = "Inbound"
   access                      = "Allow"
   protocol                    = "Tcp"
@@ -52,7 +52,7 @@ resource "azurerm_network_security_rule" "allow_ssh" {
 
 resource "azurerm_network_security_rule" "allow_http" {
   name                        = var.nsr_http_name
-  priority                    = 1002
+  priority                    = var.nsr_http_priority
   direction                   = "Inbound"
   access                      = "Allow"
   protocol                    = "Tcp"
@@ -89,23 +89,23 @@ resource "azurerm_linux_virtual_machine" "vm" {
   resource_group_name             = azurerm_resource_group.rg.name
   location                        = var.location
   size                            = var.sku_type
-  admin_username                  = "azureuser"
+  admin_username                  = var.admin_username
   admin_password                  = var.vm_password
   disable_password_authentication = false
 
   network_interface_ids = [azurerm_network_interface.nic.id]
 
   os_disk {
-    name                 = "cmaz-d4qm9uvw-mod4-osdisk"
+    name                 = var.os_disk_name
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
 
   source_image_reference {
-    publisher = "Canonical"
-    offer     = "ubuntu-24_04-lts"
-    sku       = "server"
-    version   = "latest"
+    publisher = var.image_publisher
+    offer     = var.image_offer
+    sku       = var.image_sku
+    version   = var.image_version
   }
 
   tags = var.tags
@@ -114,7 +114,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
     connection {
       type     = "ssh"
       host     = azurerm_public_ip.pip.ip_address
-      user     = "azureuser"
+      user     = var.admin_username
       password = var.vm_password
     }
 
