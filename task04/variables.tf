@@ -132,3 +132,9 @@ variable "tags" {
   description = "Resource tags"
   type        = map(string)
 }
+
+variable "ip_config_name" {
+  description = "IP configuration name"
+  type        = string
+  default     = "internal"
+}
